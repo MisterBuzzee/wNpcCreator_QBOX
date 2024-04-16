@@ -3,9 +3,9 @@ local keyOptions = {}
 local sortedKeys = {}
 local drawString = {}
 local showText = false
+QBCore = exports['qb-core']:GetCoreObject()
 
-AddEventHandler("npcCreation")
-RegisterNetEvent("npcCreation", function()
+RegisterCommand("npc", function()
     lib.registerContext({
         id = 'npc_create',
         title = 'NPC Creator made by WhereiamL',
@@ -134,8 +134,8 @@ AddEventHandler("npcCreationMenu", function()
     TriggerEvent("control:CreateEntity", data)
 end)    
 
-RegisterNetEvent("resourceStart")
-AddEventHandler("resourceStart", function(list)
+RegisterNetEvent("NPCresourceStart")
+AddEventHandler("NPCresourceStart", function(list)
     hasDrawText = false
     for _, npcData in ipairs(list) do
         if npcData.useDrawText then
@@ -143,7 +143,7 @@ AddEventHandler("resourceStart", function(list)
             drawString[#drawString + 1] = { label = npcData.oxTargetLabel, hash = npcData.hash } 
         end
 
-        local npcIdentifier = npcData.hash
+        local npcIdentifier = npcData.name
         if not npcExists(npcIdentifier) then
             local modelHash = GetHashKey(npcData.hash)
             if not IsModelValid(modelHash) then
@@ -196,7 +196,7 @@ AddEventHandler("resourceStart", function(list)
                         local controlCode = keys[npcData.drawTextKey]
                         if #(pedC - vec3(npcData.coords.x, npcData.coords.y, npcData.coords.z)) <= 10 then
                             local hasJobAndGrade = false
-                            if ESX.PlayerData.job.name == npcData.job and ESX.PlayerData.job.grade >= tonumber(npcData.grade) then       
+                            if QBX.PlayerData.job.name == npcData.job and QBX.PlayerData.job.grade >= tonumber(npcData.grade) then         
                                 hasJobAndGrade = true
                             end
 
@@ -270,7 +270,7 @@ function createNPC(modelHash, coords, heading, animDict, animName, blipName, bli
 end
 
 function createPed(modelHash, coords, heading)
-    lib.requestModel(modelHash)
+    lib.requestModel(modelHash, 5000)
     local npc = CreatePed(4, modelHash, coords.x, coords.y, coords.z, heading, false, true)
     if not DoesEntityExist(npc) then
         return nil
