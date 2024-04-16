@@ -30,12 +30,10 @@ function CreateNPC(model, stored)
     FreezeEntityPosition(previewedNPC, true)
     SetEntityInvincible(previewedNPC, true)
     SetBlockingOfNonTemporaryEvents(previewedNPC, true)
-    lib.showTextUI([[
-        [E] - Place object
-        [Q] - Quit
-        [Arrow Left] - Rotate left
-        [Arrow Right] - Rotate right
-    ]])
+    lib.showTextUI(
+        '[E] Place NPC  \n [Q] Quit  \n [⬅/⮕] Rotate Left/Right  ', {
+            position = "right-center",
+        })
     
     while IsPlacingNPC do
         local hit, _, coords, _, _ = lib.raycast.cam(1, 4)
@@ -90,7 +88,7 @@ function drawText3D(coords, text, scale2, r, g, b, a)
     local fov = (1 / GetGameplayCamFov()) * 100
     local textScale = scale * fov * scale2
 
-    SetTextScale(0.35, textScale)
+    SetTextScale(0.40, textScale)
     SetTextFont(6)
     SetTextProportional(1)
     SetTextColour(r or 255, g or 255, b or 255, a or 255)
@@ -102,7 +100,7 @@ function drawText3D(coords, text, scale2, r, g, b, a)
 
     BeginTextCommandDisplayText("STRING")
     AddTextComponentSubstringPlayerName(processedText)
-    SetDrawOrigin(coords, 0)
+    SetDrawOrigin(coords.x, coords.y, coords.z+0.65, 0)
     EndTextCommandDisplayText(0.0, 0.0)
     ClearDrawOrigin()
 end
