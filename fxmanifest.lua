@@ -7,6 +7,9 @@ version '1.0.2'
 
 lua54 'yes'
 
-client_script "client/*.lua"
+client_script {
+                '@qbx_core/modules/playerdata.lua',
+                "client/*.lua",
+}
 server_script "server/*.lua"
-shared_scripts 	{'@es_extended/imports.lua', '@ox_lib/init.lua'}
+shared_scripts 	{'@ox_lib/init.lua'}
